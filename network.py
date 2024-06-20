@@ -48,7 +48,7 @@ for iteration  in range(10000):
     dense2.forward(activation1.output)
     activation2.forward(dense2.output)
     
-    loss = loss_calculator.calculate(activation2.ouput, y)
+    loss = loss_calculator.calculate(activation2.output, y)
     
     
 
