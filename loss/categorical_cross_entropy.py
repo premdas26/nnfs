@@ -13,3 +13,13 @@ class CategoricalCrossentropyLoss(Loss):
             confidences = np.sum(y_pred_clipped * y_true, axis=1)
             
         return -np.log(confidences)
+    
+    def backward(self, dvalues, y_true):
+        num_samples = len(dvalues)
+        num_labels = len(dvalues[0])
+        
+        if len(y_true.shape) == 1:
+            y_true = np.eye(num_labels)[y_true]
+            
+        dinputs_gradient = -y_true / dvalues
+        self.dinputs = dinputs_gradient / num_samples
