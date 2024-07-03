@@ -21,5 +21,5 @@ class CategoricalCrossentropyLoss(Loss):
         if len(y_true.shape) == 1:
             y_true = np.eye(num_labels)[y_true]
             
-        dinputs_gradient = -y_true / dvalues
-        self.dinputs = dinputs_gradient / num_samples
+        self.dinputs = -y_true / dvalues
+        self.dinputs = self.dinputs / num_samples
