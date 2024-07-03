@@ -16,7 +16,7 @@ activation1 = ActivationReLU()
 dense2 = DenseLayer(64, 3)
 loss_activation = SoftmaxClassifier()
 
-optimizer = SGDOptimizer()
+optimizer = SGDOptimizer(learning_rate=0.85)
 
 for epoch in range(10001):
     dense1.forward(x)
