@@ -1,7 +1,7 @@
 from dense_layer import DenseLayer
 from activation import ActivationReLU
 from softmax_classifier import SoftmaxClassifier
-from optimizers import SGDOptimizer
+from optimizers import SGDOptimizer, AdaOptimizer, RMSPropOptimizer, AdamOptimizer
 import numpy as np
 import nnfs
 from nnfs.datasets import spiral_data, vertical_data
@@ -16,7 +16,10 @@ activation1 = ActivationReLU()
 dense2 = DenseLayer(64, 3)
 loss_activation = SoftmaxClassifier()
 
-optimizer = SGDOptimizer(decay=1e-3, momentum=0.88)
+# optimizer = SGDOptimizer(decay=1e-3, momentum=0.88)
+# optimizer = AdaOptimizer(decay=1e-4)
+# optimizer = RMSPropOptimizer(decay=1e-5, learning_rate=0.02, rho=0.999)
+optimizer = AdamOptimizer(learning_rate=0.05, decay=5e-7)
 
 for epoch in range(10001):
     dense1.forward(x)
