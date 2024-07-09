@@ -33,7 +33,7 @@ for epoch in range(10001):
         y = np.argmax(y, axis=1)
     accuracy = np.mean(predictions == y)
     
-    if not epoch % 100:
+    if not epoch % 1000:
         print(f'epoch: {epoch}, accuracy: {accuracy:.3f}, loss: {loss:.3f}, lr: {optimizer.current_learning_rate}')
 
     loss_activation.backward(loss_activation.output, y)
@@ -45,3 +45,17 @@ for epoch in range(10001):
     optimizer.update_params(dense1)
     optimizer.update_params(dense2)
     optimizer.post_update_params()
+    
+x_test, y_test = spiral_data(samples=100, classes=3)
+
+dense1.forward(x_test)
+activation1.forward(dense1.output)
+
+dense2.forward(activation1.output)
+loss = loss_activation.forward(dense2.output, y)
+
+predictions = np.argmax(loss_activation.output, axis=1)
+if len(y.shape) == 2:
+    y = np.argmax(y, axis=1)
+accuracy = np.mean(predictions == y)
+print(f'validation, accuracy: {accuracy:.3f}, loss: {loss:.3f}')
