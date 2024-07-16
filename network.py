@@ -1,4 +1,4 @@
-from dense_layer import DenseLayer
+from layer import DenseLayer, DropoutLayer
 from activation import ActivationReLU
 from softmax_classifier import SoftmaxClassifier
 from optimizers import SGDOptimizer, AdaOptimizer, RMSPropOptimizer, AdamOptimizer
@@ -13,19 +13,23 @@ x, y = spiral_data(samples=1000, classes=3)
 dense1 = DenseLayer(2, 512, weight_regularizer_l2=5e-4, bias_regularizer_l2=5e-4)
 activation1 = ActivationReLU()
 
+dropout1 = DropoutLayer(0.1)
+
 dense2 = DenseLayer(512, 3)
 loss_activation = SoftmaxClassifier()
 
 # optimizer = SGDOptimizer(decay=1e-3, momentum=0.88)
 # optimizer = AdaOptimizer(decay=1e-4)
 # optimizer = RMSPropOptimizer(decay=1e-5, learning_rate=0.02, rho=0.999)
-optimizer = AdamOptimizer(learning_rate=0.02, decay=5e-7)
+optimizer = AdamOptimizer(learning_rate=0.05, decay=5e-5)
 
 for epoch in range(10001):
     dense1.forward(x)
     activation1.forward(dense1.output)
+    
+    dropout1.forward(activation1.output)
 
-    dense2.forward(activation1.output)
+    dense2.forward(dropout1.output)
     data_loss = loss_activation.forward(dense2.output, y)
     regularization_loss = loss_activation.loss.regularization_loss(dense1) + \
                             loss_activation.loss.regularization_loss(dense2)
@@ -41,7 +45,10 @@ for epoch in range(10001):
 
     loss_activation.backward(loss_activation.output, y)
     dense2.backward(loss_activation.dinputs)
-    activation1.backward(dense2.dinputs)
+    
+    dropout1.backward(dense2.dinputs)
+    
+    activation1.backward(dropout1.dinputs)
     dense1.backward(activation1.dinputs)
 
     optimizer.pre_update_params()
