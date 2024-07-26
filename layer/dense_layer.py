@@ -11,7 +11,7 @@ class DenseLayer:
         self.bias_regularizer_l1 = bias_regularizer_l1
         self.bias_regularizer_l2 = bias_regularizer_l2
     
-    def forward(self, inputs):
+    def forward(self, inputs, _training):
         self.output = np.dot(inputs, self.weights) + self.biases
         self.inputs = inputs
         
