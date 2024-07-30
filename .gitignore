@@ -1,2 +1,4 @@
 .python-version
 **/__pycache__
+fashion_mnist_images/
+fashion_mnist_images.zip

@@ -1,3 +1,7 @@
+import os
+import urllib
+
+from zipfile import ZipFile
 from accuracy.accuracy_categorical import CategoricalAccuracy
 from activation.softmax import ActivationSoftmax
 from layer import DenseLayer, DropoutLayer
@@ -9,6 +13,7 @@ from optimizers import SGDOptimizer, AdaOptimizer, RMSPropOptimizer, AdamOptimiz
 import numpy as np
 import nnfs
 from nnfs.datasets import spiral_data, vertical_data
+
 
 nnfs.init()
 
